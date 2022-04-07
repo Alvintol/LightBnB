@@ -8,5 +8,10 @@
     "email":"cadencerollins@live.com",
     "password":"$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.",
     "id":2
+  },
+  "3":{"name":"testfirst testlast",
+    "email":"test@test.com",
+    "password":"$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.",
+    "id":3
   }
 }

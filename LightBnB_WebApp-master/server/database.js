@@ -28,16 +28,19 @@ pool.query(`SELECT title FROM properties LIMIT 10;`).then(response => {
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithEmail = function (email) {
-  let user;
-  for (const userId in users) {
-    user = users[userId];
-    if (user.email.toLowerCase() === email.toLowerCase()) {
-      break;
-    } else {
-      user = null;
-    }
-  }
-  return Promise.resolve(user);
+
+  return pool
+    .query(`
+  SELECT * FROM users
+  WHERE email = $1
+  LIMIT 1`, [email])
+    .then((result) => {
+      return result.rows[0]
+    })
+    .catch((err) => {
+      console.log(err.message)
+      return null
+    });
 }
 exports.getUserWithEmail = getUserWithEmail;
 
@@ -87,7 +90,7 @@ exports.getAllReservations = getAllReservations;
  */
 
 const getAllProperties = (options, limit = 10) => {
-  
+
   return pool
     .query(`SELECT * FROM properties LIMIT $1`, [limit])
     .then((result) => {
