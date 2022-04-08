@@ -6,7 +6,6 @@ const query = require('express/lib/middleware/query');
 
 const args = process.argv.slice(2);
 
-
 const pool = new Pool({
   user: 'vagrant',
   password: '123',
@@ -88,7 +87,7 @@ exports.addUser = addUser;
  * @param {string} guest_id The id of the user.
  * @return {Promise<[{}]>} A promise to the reservations.
  */
-const getAllReservations = function (guest_id, limit = 10) {
+const getAllReservations = function (guest_id, limit) {
   return pool
     .query(`
     SELECT properties.*, 
@@ -120,7 +119,7 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 
-const getAllProperties = (options, limit = 10) => {
+const getAllProperties = (options, limit) => {
 
   const queryParams = [];
 
@@ -129,6 +128,7 @@ const getAllProperties = (options, limit = 10) => {
     FROM properties
     JOIN property_reviews ON properties.id = property_id
     `;
+
 
   if (options.city) {
     queryParams.push(`%${options.city}%`);
@@ -149,6 +149,7 @@ const getAllProperties = (options, limit = 10) => {
     queryParams.push(`${options.maximum_price_per_night}`);
     queryString += `WHERE cost_per_night < $${queryParams.length} `;
   }
+
   if ((options.city || options.minimum_price_per_night) && options.maximum_price_per_night) {
     queryParams.push(`${options.maximum_price_per_night}`);
     queryString += ` AND cost_per_night < $${queryParams.length} `;
